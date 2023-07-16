@@ -37,9 +37,43 @@ export const postBooks = (request, h) => {
 }
 
 export const getBooks = (request, h) => {
+    // Get request query
+    const { name, reading, finished } = request.query;
+
+    // Create new array
+    let bookArr = books;
+
+    // Check request query
+    if (name) {
+        // Filter book name
+        bookArr = bookArr.filter((book) => {
+            if (book.name.toLowerCase().includes(name.toLowerCase())) {
+                return book;
+            }
+        })
+    }
+
+    if (reading) {
+        const isReading = reading === '1' ? true : false;
+        bookArr = bookArr.filter((book) => {
+            if (book.reading === isReading) {
+                return book;
+            }
+        })
+    }
+
+    if (finished) {
+        const isFinished = finished === '1' ? true : false;
+        bookArr = bookArr.filter((book) => {
+            if (book.finished === isFinished) {
+                return book;
+            }
+        })
+    }
+
     // Return all books
     const data = {
-        books: books.map((book) => {
+        books: bookArr.map((book) => {
             return {
                 id: book.id,
                 name: book.name,
