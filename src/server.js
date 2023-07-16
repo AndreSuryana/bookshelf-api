@@ -1,11 +1,11 @@
-import { server as hapiServer } from "@hapi/hapi";
+import { server as hapiServer } from '@hapi/hapi';
 import routes from './routes/Routes.js';
 
-const start = async() => {
+const start = async () => {
     // Create server
     const server = hapiServer({
         port: 9000,
-        host: 'localhost'
+        host: 'localhost',
     });
 
     // Add routes
@@ -13,8 +13,8 @@ const start = async() => {
 
     // Start server
     await server.start();
-    console.log(`Server berjalan pada ${server.info.uri}`)
-}
+    console.log(`Server berjalan pada ${server.info.uri}`);
+};
 
 // Start server
 start();

@@ -7,7 +7,10 @@ import { composeSuccessJson, composeErrorJson } from '../util/ResponseUtil.js';
 const books = [];
 
 /**
- * Books handler function
+ * Books handler function.
+ * @param {request} request
+ * @param {handler} h
+ * @return {response} response
  */
 export const postBooks = (request, h) => {
     // Get payload
@@ -34,7 +37,7 @@ export const postBooks = (request, h) => {
     return h.response(composeSuccessJson(data, 'Buku berhasil ditambahkan'))
         .type('application/json')
         .code(201);
-}
+};
 
 export const getBooks = (request, h) => {
     // Get request query
@@ -50,7 +53,7 @@ export const getBooks = (request, h) => {
             if (book.name.toLowerCase().includes(name.toLowerCase())) {
                 return book;
             }
-        })
+        });
     }
 
     if (reading) {
@@ -59,7 +62,7 @@ export const getBooks = (request, h) => {
             if (book.reading === isReading) {
                 return book;
             }
-        })
+        });
     }
 
     if (finished) {
@@ -68,7 +71,7 @@ export const getBooks = (request, h) => {
             if (book.finished === isFinished) {
                 return book;
             }
-        })
+        });
     }
 
     // Return all books
@@ -77,21 +80,21 @@ export const getBooks = (request, h) => {
             return {
                 id: book.id,
                 name: book.name,
-                publisher: book.publisher
+                publisher: book.publisher,
             };
-        })
+        }),
     };
     return h.response(composeSuccessJson(data))
         .type('application/json')
         .code(200);
-}
+};
 
 export const getBook = (request, h) => {
     // Get params
     const { bookId } = request.params;
 
     // Search books by id
-    const book = books.find(item => item.id === bookId);
+    const book = books.find((item) => item.id === bookId);
 
     if (book) {
         // Book founded
@@ -105,7 +108,7 @@ export const getBook = (request, h) => {
             .type('application/json')
             .code(404);
     }
-}
+};
 
 export const putBook = (request, h) => {
     // Get params
@@ -128,7 +131,7 @@ export const putBook = (request, h) => {
     }
 
     // Search books by id
-    const book = books.find(item => item.id === bookId);
+    const book = books.find((item) => item.id === bookId);
 
     if (!book) {
         // Book not found
@@ -143,14 +146,14 @@ export const putBook = (request, h) => {
     return h.response(composeSuccessJson(null, 'Buku berhasil diperbarui'))
         .type('application/json')
         .code(200);
-}
+};
 
 export const deleteBook = (request, h) => {
     // Get params
     const { bookId } = request.params;
 
     // Search books by id
-    const bookIndex = books.findIndex(item => item.id === bookId);
+    const bookIndex = books.findIndex((item) => item.id === bookId);
 
     if (bookIndex == -1) {
         // Book not found
@@ -165,10 +168,10 @@ export const deleteBook = (request, h) => {
     return h.response(composeSuccessJson(null, 'Buku berhasil dihapus'))
         .type('application/json')
         .code(200);
-}
+};
 
 export const notFound = (request, h) => {
     return h.response(composeErrorJson('Not found'))
         .type('application/json')
         .code(404);
-}
+};
